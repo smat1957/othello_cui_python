@@ -1,0 +1,858 @@
+% latex uft-8
+\documentclass[uplatex,a4paper,11pt,oneside,openany]{jsbook}
+%
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{ascmac}
+\usepackage{setspace}
+\usepackage{here}
+\usepackage{listings,jlisting} %日本語のコメントアウトをする場合jlistingが必要
+%ここからソースコードの表示に関する設定
+\usepackage{xcolor,comment}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\begin{comment}
+\lstset{
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  firstnumber=1000,                % start line enumeration with line 1000
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+\end{comment}
+
+%ここからソースコードの表示に関する設定
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  numbers=left,
+  frame=single,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\lstdefinestyle{custompython}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  numbers=left,
+  frame=single,
+  xleftmargin=\parindent,
+  language=Python,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\lstdefinestyle{customjava}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  numbers=left,
+  frame=single,
+  xleftmargin=\parindent,
+  language=java,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\lstdefinestyle{customasm}{
+  belowcaptionskip=1\baselineskip,
+  frame=L,
+  xleftmargin=\parindent,
+  language=[x86masm]Assembler,
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\itshape\color{purple!40!black},
+}
+
+\lstset{escapechar=@,style=custompython}
+
+\makeatletter
+\def\ps@plainfoot{%
+  \let\@mkboth\@gobbletwo
+  \let\@oddhead\@empty
+  \def\@oddfoot{\normalfont\hfil-- \thepage\ --\hfil}%
+  \let\@evenhead\@empty
+  \let\@evenfoot\@oddfoot}
+  \let\ps@plain\ps@plainfoot
+\renewcommand{\chapter}{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \global\@topnum\z@
+  \secdef\@chapter\@schapter}
+\makeatother
+%
+\newcommand{\maru}[1]{{\ooalign{%
+\hfil\hbox{$\bigcirc$}\hfil\crcr%
+\hfil\hbox{#1}\hfil}}}
+%
+\setlength{\textwidth}{\fullwidth}
+\setlength{\textheight}{40\baselineskip}
+\addtolength{\textheight}{\topskip}
+\setlength{\voffset}{-0.55in}
+%
+\begin{document}
+% START DOCUMENT
+%
+% COVER
+\begin{center}
+  \huge \par
+  \vspace{15mm}
+  \huge \par
+  \vspace{15mm}
+  \LARGE Othello (CUI - Python) \par
+  \vspace{100mm}
+  \Large \date \par
+  \vspace{15mm}
+  \Large \par
+  \vspace{10mm}
+  \Large S.Matoike \par
+  \vspace{10mm}
+\end{center}
+\thispagestyle{empty}
+\clearpage
+\addtocounter{page}{-1}
+\newpage
+\setcounter{tocdepth}{3}
+%
+\tableofcontents
+%
+
+\chapter{Othello(リバーシ）：N $\times$ N}
+
+8 $\times$ 8サイズのゲームが一般的ですが、
+6 $\times$ 6盤の縮小オセロでは必勝法が見つかっているようです
+
+1993年にイギリスのJoel Feinsteinが、6 $\times$ 6盤の縮小オセロで、
+先手が最善手を尽くしたとしても後手が「20対16」で勝つ、
+(先手16対、後手20で、後手の4目勝ち)という事を示したということです
+
+ここでは、
+4 $\times$ 4「以上」の大きさの盤面に対応するオセロを作ります。
+あなたにゲームを最後まで続ける根気があるなら、
+10 $\times$ 10でも20 $\times$ 20でもゲームすることができるかもしれません
+
+\section{CUI版}
+
+以下のゲーム例では、×（BLACK）の手番ですが、○（WHITE）を裏返せないところに×を置こうとしたり、
+×（BLACK）を置ける場所があるのにpassを宣言したりすると、再入力を促されています
+
+○（WHITE）の手番で、まずは乱数によってコンピュータが石を置くスロットを決めていますが、
+後ほどStrategyクラスで、コンピュータの強い戦略について考察していきます
+
+\begin{spacing}{0.74}
+\begin{verbatim}
+  WHITE:2, BLACK:2
+    0 1 2 3 →x
+  0 . . . .
+  1 . X O .
+  2 . O X .
+  3 . . . .
+  ↓
+  y
+  Your turn. [yx] or "pass": 23
+  Your turn. [yx] or "pass": pass
+  Your turn. [yx] or "pass": 13
+
+  WHITE:1, BLACK:4
+    0 1 2 3 →x
+  0 . . . .
+  1 . X X X
+  2 . O X .
+  3 . . . .
+  ↓
+  y
+  WHITE:3, BLACK:3
+    0 1 2 3 →x
+  0 . . . .
+  1 . X X X
+  2 . O O O
+  3 . . . .
+  ↓
+  y
+  Your turn. [yx] or "pass": 33
+
+  WHITE:1, BLACK:6
+    0 1 2 3 →x
+  0 . . . .
+  1 . X X X
+  2 . O X X
+  3 . . . X
+  ↓
+  y
+  WHITE:3, BLACK:5
+    0 1 2 3 →x
+  0 . O . .
+  1 . O X X
+  2 . O X X
+  3 . . . X
+  ↓
+  y
+  Your turn. [yx] or "pass": 00
+
+  （　・・　途中略　・・　）
+
+  WHITE:5, BLACK:9
+    0 1 2 3 →x
+  0 X X X O
+  1 O X X X
+  2 O O X X
+  3 O . . X
+  ↓
+  y
+  Your turn. [yx] or "pass": 31
+
+  WHITE:4, BLACK:11
+    0 1 2 3 →x
+  0 X X X O
+  1 O X X X
+  2 O X X X
+  3 O X . X
+  ↓
+  y
+  WHITE:7, BLACK:9
+    0 1 2 3 →x
+  0 X X X O
+  1 O X X X
+  2 O O X X
+  3 O O O X
+  ↓
+  y
+
+  Winner : BLACK
+\end{verbatim}
+\end{spacing}
+
+%\section{Human vs. Machine}
+
+\subsection{Gameクラス}
+
+メインでは、Gameクラスのコンストラクタでへの引数で盤面のサイズ（N=4以上の偶数）、
+先手を'human', 'machine'から、戦略を'random', 'maxflip', 'minimax', 'alphabeta'から指定します
+
+\begin{lstlisting}[caption=main,label=othello00]
+from Game import Game
+
+if __name__ == '__main__':
+    sente = 'human'         # 'human, 'machine'
+    senryaku = 'maxflip'    # 'random', 'maxflip', 'minimax', 'alphabeta'
+    game = Game( N=6, turn=sente, strategy=senryaku )      # board size -> N x N
+    game.start()
+\end{lstlisting}
+
+Gameクラスのコンストラクタで、盤面クラス（Board）のインスタンス（board）、
+人クラス（Human）のインスタンス（human）、
+コンピュータクラス（Machine）のインスタンス（machine）を生成し、
+インスタンス変数self.playerには、humanとmachineの2つのインスタンスを要素とするリストを用意しています
+
+start()メソッドで、ゲームの進行の主要部分を記述しています
+
+①盤面を印刷（board.print()）し、②プレーヤの打つ手を選び（player[turn].Te(self.board)）、
+③もし、パス（Board.PASS）でなかった場合は、④盤面に石を置く（board.putStone(te,color)）
+ことになります。
+⑤パスならば盤面に石を置かずに、プレーヤを交代（turn = (turn+1)\%2）します
+
+⑥盤面の状況から勝敗の判定(board.Winner())を行い、戻り値が
+Board.GAMEならばゲームを継続、それ以外
+（BLACK\_WINかWHITE\_WINかDRAW）ならば、ゲームを終了して結果の勝敗を表示します
+
+\begin{lstlisting}[caption=Game class,label=othello01]
+from Board import Board
+from Human import Human
+from Machine import Machine
+from Stone import Stone
+
+class Game():
+    def __init__(self, N=4, turn='human', strategy='random'):
+        self.board = Board(NW=N)
+        human = Human(color=Stone.BLACK)
+        machine = Machine(color=Stone.WHITE, strategy=strategy)
+        self.player = [human, machine]
+        self.turn = 0
+        if turn=='machine':
+            self.turn = 1
+
+    def start(self):
+        turn = self.turn
+        winner = Board.GAME
+        while winner==Board.GAME:
+            self.board.print()                    # ①
+
+            te = self.player[turn].Te(self.board) # ②
+            if te!=Board.PASS:                    # ③
+                color = self.player[turn].color
+                self.board.put_stone(te,color)    # ④
+
+            turn = (turn+1)%2                     # ⑤
+            winner = self.board.winner()          # ⑥
+
+        self.board.print()
+        print()
+        if winner==Board.BLACK_WIN:
+            print('Winner : BLACK')
+        elif winner==Board.WHITE_WIN:
+            print('Winner : WHITE')
+        elif winner==Board.DRAW:
+            print('DRAW')
+\end{lstlisting}
+
+\subsection{Stoneクラス}
+
+石のクラスでは、BLACK、WHITE、EMPTYの中の何れかの色特性（self.color）、
+及び盤面上の位置（self.locate）をプロパティとして持たせています
+
+用意しているメソッドは、各プロパティに関するセッターやゲッターです
+
+\begin{lstlisting}[caption=Stone class,label=othello04]
+class Stone():
+    EMPTY = 0
+    BLACK = 1
+    WHITE = 3 - BLACK
+    MACHINE_ID = WHITE
+    HUMAN_ID = BLACK
+    def __init__(self, te, color):
+        self.color = color
+        self.locate = te
+
+    def getLocate(self):
+        return self.locate
+
+    def setColor(self, color):
+        self.color = color
+
+    def getColor(self):
+        return self.color
+
+    def flipColor(self):
+        self.color = 3 - self.color
+
+    def getFigure(self):
+        if self.color==Stone.BLACK:
+            return 'X'
+        elif  self.color==Stone.WHITE:
+            return 'O'
+        return '.'
+\end{lstlisting}
+
+\subsection{Boardクラス}
+
+このクラスでは、盤面の状態をリスト（self.stones）に保持しています
+
+コンストラクタでは、
+まず引数で示されたサイズ（NW * NW）の空の（Stone.EMPTY）盤面を用意しています
+
+次に、盤面の中央にBLACKとWHITEの石をそれぞれ2個ずつ配置しますが、
+配置のパタンは乱数によって決めています
+
+石の数を nWhite,nBlack,nEmpty に保持させ、
+winner()メソッドの最初でそれぞれの値を数えています
+
+nWhite＋nBlack＋nEmptyは盤面のスロットの総数になりますから、
+nEmptyがゼロになった段階で、nWhiteとnBlackの大小関係から
+勝敗を決定しています
+（nEmptyがゼロになるより前に勝敗の判定がつく場合について、
+具体的にプログラムする必要があるかもしれません）
+
+print()メソッドは、画面に盤面の状態を表示しています
+
+is\_empty()メソッドは、引数で指定したスロットが空（Stone.EMPTY）
+であるか否かを判定しています
+
+empty\_list()メソッドは、現在の盤面において、
+空（Stone.EMPTY）のスロット番号の一覧をリストにして返します
+
+can\_put(te, color)メソッドは、引数teで示されたスロット番号の場所に、
+第2引数のcolorで示された色の石を置けるかどうかを判定しています
+（具体的には、self.check\_flip( Stone(te, color) )を呼び出して、
+色を反転できる石が何個かあるなら、そこには石を置けるという判断をしています）
+
+check\_flip(stone)メソッドでは、
+引数で受け取っているstoneオブジェクトは、その石を置こうとしているスロットの位置番号、
+及びその石の色をプロパティとして持っていますから、盤面のその位置に指定された色の
+石を置いたときに、上下、左右、右斜め上、右斜め下、左斜め上、左斜め下の8つの方向で
+何個の石を反転できるかを数えています（最後に、反転できる石の総数を返しています）
+
+flip\_list(stone)メソッドでは、
+check\_flip(stone)メソッドで数えた各方向での反転できる石の数に基づいて、
+反転する石のスロット番号のリストを作って返しています
+
+put\_stone(te, color)メソッドは、
+まずは、指定されたスロット位置に指定の石を置いた後に、
+反転する石のリストをflip\_list(stone)メソッドで作って、
+そのリストをset\_stones(flist,color)に渡して、
+実際に盤面の石を反転させるようにします
+
+set\_stones(flist,color)メソッドは、受け取ったリストを基に
+盤面のデータを更新し、石を反転させています
+
+reset\_stones()メソッドは、
+set\_stones()メソッドで反転させた盤面上の石を元に戻します
+
+puttable()メソッドは、can\_put()メソッドがTrueだった場合のnKomaリストを取得します
+
+puttable\_list()メソッドは、puttbale()メソッドの戻り値から、
+盤面上で石を置ける場所のリストを取得します
+
+\begin{lstlisting}[caption=Board class,label=othello05]
+from random import randint
+from Stone import Stone
+
+class Board:
+    PASS = -10
+    GAME =  -1
+    DRAW =   0
+    HUMAN_WIN = BLACK_WIN = Stone.BLACK * 100
+    MACHINE_WIN = WHITE_WIN = Stone.WHITE * 100
+    UNITV = ((0,-1),(1,-1),(1,0),(1,1),(0,1),(-1,1),(-1,0),(-1,-1))
+
+    def __init__(self, NW=4):
+        self.nKoma = [0 for _ in range(9)]
+        self.NW = NW
+        self.NxN = NW * NW
+        self.stones = [ Stone(i, Stone.EMPTY) for i in range(self.NxN) ]
+        m = NW//2
+        n = m - 1
+        self.stones[NW*n+n].setColor( Stone.WHITE )
+        self.stones[NW*n+m].setColor( Stone.BLACK )
+        self.stones[NW*m+n].setColor( Stone.BLACK )
+        self.stones[NW*m+m].setColor( Stone.WHITE )
+        nrnd = randint(0,1)
+        if nrnd==0:
+            self.stones[NW * n + n].flipColor()
+            self.stones[NW * n + m].flipColor()
+            self.stones[NW * m + n].flipColor()
+            self.stones[NW * m + m].flipColor()
+        self.nBlack = self.nWhite = 2
+        self.nEmpty = self.NxN - (self.nBlack + self.nWhite)
+        self.state = Board.GAME
+
+    def winner(self):
+        self.nBlack = self.nWhite = self.nEmpty = 0
+        for i in range(self.NxN):
+            if self.stones[i].getColor() == Stone.HUMAN_ID:
+                self.nBlack += 1
+            elif self.stones[i].getColor() == Stone.MACHINE_ID:
+                self.nWhite += 1
+            else:
+                self.nEmpty += 1
+        if self.nBlack+self.nWhite == self.NxN:
+            if self.nBlack < self.nWhite:
+                return Board.MACHINE_WIN
+            elif self.nBlack > self.nWhite:
+                return Board.HUMAN_WIN
+            else:
+                return Board.DRAW
+        return Board.GAME
+
+    def print(self):
+        print(f"WHITE:{self.nWhite}, BLACK:{self.nBlack}")
+        print(' ',end=' ')
+        for x in range(self.NW):
+            print(f"{x}", end=' ')
+        print("→x")
+        for y in range(self.NW):
+            print(f"{y:}", end=' ')
+            for x in range(self.NW):
+                print(f"{self.stones[ y*self.NW+x ].getFigure()}", end=' ')
+            print()
+        print("↓\ny")
+
+    def check_flip(self, stone):
+        y = stone.getLocate()//self.NW
+        x = stone.getLocate()%self.NW
+        self.nKoma[8] = 0
+        if self.stones[y*self.NW+x].getColor() == Stone.EMPTY:
+            for i1 in range( len(self.nKoma)-1 ):   # 0,1,2,3,4,5,6,7
+                m1, m2 = x, y
+                self.nKoma[i1] = s = ct = 0
+                while s<2:
+                    m1 += Board.UNITV[i1][0]
+                    m2 += Board.UNITV[i1][1]
+                    if (0<=m1<self.NW) and (0<=m2<self.NW):
+                        color = self.stones[m2*self.NW+m1].getColor()
+                        if color==Stone.EMPTY:
+                            s = 3
+                        elif color==stone.getColor():
+                            s=2 if s==1 else 3
+                        else:
+                            s=1
+                            ct += 1
+                    else:
+                        s=3
+                if s==2:
+                    self.nKoma[8] += ct
+                    self.nKoma[i1] = ct
+        return self.nKoma[8]
+
+    def flip_list(self, stone):
+        self.check_flip(stone)
+        y = stone.getLocate()//self.NW
+        x = stone.getLocate()%self.NW
+        flipped = []
+        for i1 in range( len(self.nKoma)-1 ):   # 0,1,2,3,4,5,6,7
+            m1, m2 = x, y
+            for i2 in range( self.nKoma[i1] ):
+                m1 += Board.UNITV[i1][0]
+                m2 += Board.UNITV[i1][1]
+                if (0 <= m1 < self.NW) and (0 <= m2 < self.NW):
+                    z = m2*self.NW+m1
+                    self.stones[z].setColor( stone.getColor() )
+                    flipped.append( z )
+        z = y*self.NW+x
+        self.stones[z].setColor( stone.getColor() )
+        flipped.append(z)
+        return flipped
+
+    def empty_list(self):
+        list = [v for v in range(self.NxN) if self.is_empty(v)]
+        return list
+
+    def is_empty(self, te):
+        return True if self.stones[te].getColor()==Stone.EMPTY else False
+
+    def can_put(self, te, color):
+        if 0<=te<self.NxN:
+            if 0<self.check_flip( Stone(te, color) ):
+                return True
+        return False
+
+    def puttable(self, te, color):
+        if self.can_put(te, color):
+            return self.nKoma
+
+    def puttable_list(self, color):
+        emptyl = self.empty_list()
+        komal = []
+        telist = []
+        for n in emptyl:
+            w = self.puttable(n, color)
+            if w:
+                telist.append(n)
+                komal.append(w)
+        return telist, komal
+
+    def put_stone(self, te, color):
+        stone = Stone(te, color)
+        flist = self.flip_list( stone )
+        self.set_stones(flist, color)
+        self.stones[te] = stone
+        if color==Stone.BLACK:
+            self.nBlack = len(flist) + 1
+        else:
+            self.nWhite = len(flist) + 1
+        return flist
+
+    def set_stones(self, flist, color):
+        for z in flist:
+            self.stones[z] = Stone(z, color)
+        self.stones[z] = Stone(z, Stone.EMPTY)
+
+    def reset_stones(self, te, flist, color):
+        if color==Stone.WHITE:
+            c = Stone.BLACK
+        elif color==Stone.BLACK:
+            c = Stone.WHITE
+        self.stones[te] = Stone(te,c)
+        for z in flist:
+            self.stones[z] = Stone(z, c)
+        self.stones[z] = Stone(z, Stone.EMPTY)
+
+    def debug_print(self):
+        for y in range(self.NW):
+            for x in range(self.NW):
+                n = y*self.NW + x
+                print(self.stones[n].color, end=' ')
+            print()
+        print('\n')
+\end{lstlisting}
+
+\subsection{Humanクラス}
+
+人の打つ石の手を決めているのは、このクラスのメソッドTe()です
+
+プロンプトメッセージ（'Your turn. [yx] or "pass": '）を表示して、
+入力文字列を受け取ります（instr）
+
+入力文字列（instr）の中に文字列'pass'が含まれていたなら、まず、
+石を置ける場所があったにもかかわらず、誤ってパスを指示したかもしれない
+可能性をチェック（puttable()）します
+
+もし、石を置く場所がある局面なら、パスをしてはいけないので、
+プロンプトメッセージまで処理を戻します（continue）
+
+石を置く場所がなくてパスの指示をしたのなら、
+パスの指示を返します（return Board.PASS）
+
+入力文字列にスロット番号として、行番号ｙと列番号ｘが[yx]として指定されたならば、
+ｙｘという2桁の数字文字を、それぞれ整数に変換（serial\_num()）しています
+
+ｙとｘが数字から整数値に変換できたなら、スロットの位置番号を計算
+（slot = cy * board.NW + cx）できます
+
+計算したスロット番号に、その石を置けるかどうかをチェック
+（board.can\_put(slot, self.color)）して、置けない場合は
+最初の文字列入力プロンプトまで処理を戻します
+
+チェックした結果、石を置くことのできるスロット番号だったなら、
+反復（while True）を抜けて（break）、そのスロット番号を返します（return slot）
+
+\begin{lstlisting}[caption=Human class,label=othello03]
+from Board import Board
+from Stone import Stone
+
+class Human:
+    def __init__(self, color=Stone.BLACK):
+        self.color = color
+
+    def Te(self, board):
+        def puttable():
+            elist =  board.empty_list()
+            for v in elist:
+                if board.can_put(v, self.color):
+                    return True
+            return False
+
+        while True:
+            instr = input('Your turn. [yx] or "pass": ')
+            if 'pass' in instr:
+                if puttable():
+                    continue
+                return Board.PASS
+            if 1<len(instr) and self.numP( instr[0] ) and self.numP( instr[1] ):
+                cy = self.serial_num( instr[0] )
+                cx = self.serial_num( instr[1] )
+                slot = cy * board.NW + cx
+                if board.can_put(slot, self.color):
+                    break
+        print()
+        return slot
+
+    def numP(self, xy):
+        if '0' <= xy <= '9':
+            return True
+        return False
+
+    def serial_num(self, xy):
+        def fromA(xy):
+            return int(xy - 'a')
+
+        if self.numP(xy):
+            nxy = int( xy )
+        else:
+            nxy = fromA(xy)+10
+        return nxy
+\end{lstlisting}
+
+\subsection{Machineクラス}
+
+コンピュータ（Machine）の打つ手を決めているのが、このクラスのメソッド、Te()です
+
+①まず最初に、board.puttable\_list()によって石を置ける場所の一覧をtelistというリストとして取得します
+
+②打つ手のリストの要素がない場合は、Board.PASSを返します
+
+③打つ手のリストの要素が一つしかない場合は、迷うことなくその手を返します
+
+④'random'戦略が選ばれている場合は、telistの中から乱数で選んだ手を返します
+
+⑤'maxflip'戦略が選ばれている場合は、BoardクラスのnKomaリストの一番最後の要素に、
+反転できる石の数の総数が入っているので、最も多く反転できる手を返します
+
+⑥'minimax'戦略が選ばれている場合は、MINIMAX法による手が選ばれますが、
+MINIMAX法は、勝敗がつくまで、最後まで対戦を試行するので、盤面のサイズが
+最小値（N=4）の場合でも、とても応答に時間がかかります。
+
+⑦'alphabeta'戦略が選ばれている場合は、MINIMAX法を途中で打ち切る手立てを
+含んでいるので、多少高速な応答を期待できますが、、、、、
+
+\begin{lstlisting}[caption=Machine class,label=othello02]
+from random import randint
+from Board import Board
+from Stone import Stone
+from Strategy import Strategy
+
+class Machine( Strategy ):
+    def __init__(self, color=Stone.WHITE, strategy = 'random'):
+        self.color = color
+        self.strategy = strategy
+
+    def Te(self, board):
+        telist, komalist = board.puttable_list( self.color )
+        if not telist:
+            return Board.PASS
+        if len(telist)==1:
+            return telist[0]
+        if self.strategy == 'random':
+            n = randint( 0, len(telist)-1 )
+            return telist[n]
+        elif self.strategy == 'maxflip':
+            n = v = -1
+            for i, k in enumerate(komalist):
+                if n < k[-1]:
+                    n = k[-1]
+                    v = telist[i]
+            return v
+        elif self.strategy == 'minimax':
+            print('thinking ...')
+            n = self.bestMove(board, telist)
+            print('Your turn.')
+            return n
+        elif self.strategy == 'alphabeta':
+            n = self.bestMoveAB(board, telist)
+            return n
+\end{lstlisting}
+
+\subsection{Strategyクラス}
+
+このクラスは、Machineクラスのスーパークラスとして、
+Machineクラスに継承させて使うようにします
+
+ここには、MINIMAX法とAlpha-Beta刈りの2つを記述しています
+
+\begin{lstlisting}[caption=Strategy class,label=othello06]
+from Board import Board
+from Stone import Stone
+
+class Strategy:
+    INFINITY = 100000
+    def __init__(self):
+        pass
+
+    # MiniMax
+    def bestMove(self, board, telist):
+        bestEval = -Strategy.INFINITY
+        bestMove = -1
+        for n, v in enumerate(telist):
+            flist = board.put_stone(v, self.color)
+            eval = self.minimax(board, 0, False)
+            if bestEval<eval:
+                bestEval = eval
+                bestMove = v
+            board.reset_stones(v, flist, self.color)
+        return bestMove
+
+    def minimax(self, board, depth, isMaximizingPlayer):
+        def evaluate(depth):
+            if board.state == Board.MACHINE_WIN:
+                board.state = Board.GAME
+                return board.NxN-depth     #return NxN
+            elif board.state == Board.HUMAN_WIN:
+                board.state = Board.GAME
+                return depth-board.NxN     #return -NxN
+            else:
+                self.state = Board.GAME
+                return 0
+
+        board.winner()
+        if board.state != Board.GAME:
+            return evaluate(depth)
+
+        color = Stone.MACHINE_ID if isMaximizingPlayer else Stone.HUMAN_ID
+        telist, _ = board.puttable_list(color)
+        bestVal = -Strategy.INFINITY if isMaximizingPlayer else +Strategy.INFINITY
+        for n, v in enumerate(telist):
+            flist = board.put_stone(v, color)
+            value = self.minimax(board, depth + 1, not isMaximizingPlayer)
+            bestVal = max(value, bestVal) if isMaximizingPlayer else min(value, bestVal)
+            board.reset_stones(v, flist, color)
+        return bestVal
+
+    # Alpha-Beta
+    def bestMoveAB(self, board, telist):
+        bestEval = -Strategy.INFINITY
+        bestMove = -1
+        for n, v in enumerate(telist):
+            flist = board.put_stone(v, self.color)
+            eval = self.minimaxab(board, 8, 0, False, -Strategy.INFINITY, +Strategy.INFINITY)
+            if bestEval<eval:
+                bestEval = eval
+                bestMove = v
+            board.reset_stones(v, flist, self.color)
+        return bestMove
+
+    def minimaxab(self, board, node, depth, isMaximizingPlayer, alpha, beta):
+        def evaluate(depth):
+            if board.state == Board.MACHINE_WIN:
+                board.state = Board.GAME
+                return board.NxN-depth     #return NxN
+            elif board.state == Board.HUMAN_WIN:
+                board.state = Board.GAME
+                return depth-board.NxN     #return -NxN
+            else:
+                self.state = Board.GAME
+                return 0
+
+        board.winner()
+        if board.state != Board.GAME:
+            return evaluate(depth)
+        elif node==0:
+            n = board.nBlack - board.nWhite
+            return n if isMaximizingPlayer else -n
+
+        color = Stone.MACHINE_ID if isMaximizingPlayer else Stone.HUMAN_ID
+        telist, _ = board.puttable_list(color)
+        bestVal = -Strategy.INFINITY if isMaximizingPlayer else +Strategy.INFINITY
+        for n, v in enumerate(telist):
+            flist = board.put_stone(v, color)
+            value = self.minimaxab(board, node-1, depth+1, not isMaximizingPlayer, alpha, beta)
+            board.reset_stones(v, flist, color)
+            if isMaximizingPlayer:
+                bestVal = max(value, bestVal)
+                alpha = max(alpha, bestVal)
+            else:
+                bestVal = min(value, bestVal)
+                beta = min(beta, bestVal)
+            if beta<=alpha:
+                break
+        return bestVal
+\end{lstlisting}
+
+
+
+%\section*{謝辞}
+%\addcontentsline{toc}{chapter}{謝辞}
+%
+\begin{thebibliography}{99}
+  \bibitem{1}
+\end{thebibliography}
+%
+% END DOCUMENT
+\end{document}
+%
